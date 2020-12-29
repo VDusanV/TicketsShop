@@ -1,0 +1,119 @@
+﻿@using TicketsPR102017.Models;
+
+@{
+    Manifestacija item = ViewBag.Manifestacija;
+    Korisnik k = (Korisnik)Session["kupac"];
+}
+<div class="jumbotron">
+    <img src="~/images/@item.Slika"/>
+</div>
+<div class="row">
+    <div class="col-md-6" id="mojdiv">
+        <table class="table">
+            <tr>
+                <td><b>Naziv:</b></td>
+                <td>@item.Naziv</td>
+            </tr>
+            <tr>
+                <td><b>Tip:</b></td>
+                <td>@item.Tip.ToString()</td>
+            </tr>
+            <tr>
+                <td><b>Broj mesta:</b></td>
+                <td>@item.BrojMesta</td>
+            </tr>
+            <tr>
+                <td><b>Kapacitet:</b></td>
+                <td>@item.Kapacitet</td>
+            </tr>
+            <tr>
+                <td><b>Cena karte:</b></td>
+                <td>@item.CenaKarte</td>
+            </tr>
+            <tr>
+                <td><b>Datum:</b></td>
+                <td>@item.DatumOdrzavanja</td>
+
+            </tr>
+            <tr>
+                <td><b>Grad:</b></td>
+                <td>@item.MestoOdrzavanjaManif.Grad</td>
+
+            </tr>
+            <tr>
+                <td><b>Adresa:</b></td>
+                <td>@item.MestoOdrzavanjaManif.UlicaBroj</td>
+
+            </tr>
+            <tr>
+                <td><b>Postanski broj:</b></td>
+                <td>@item.MestoOdrzavanjaManif.PostanskiBroj</td>
+
+            </tr>
+            <tr>
+                <td><b>Status:</b></td>
+                <td>@item.Status.ToString()</td>
+            </tr>
+            
+        </table>
+            @if (k != null)
+            {
+
+                <form action="~/Profil/Potvrda">
+                    <input type="text" name="idManif" value="@item.Id" hidden />
+                    <input type="text" name="cenaKarte" value="@item.CenaKarte" hidden />
+                    <input type="text" name="imeKupca" value="@k.KorisnickoIme" hidden />
+                    <label>Broj karata:</label>
+                    <input type="number" name="brojKarata" />
+                    <label>Tip karata:</label>
+                    <select  name="tipKarte">
+                        <option value="0">Vip</option>
+                        <option value="1">Regular</option>
+                        <option value="2">Fanpit</option>
+                        
+                    </select>
+                    <input type="submit" value="rezervisi" />
+                </form>
+            }
+    </div>
+
+    <div class="col-md-4 col-md-offset-2" id="mojdiv">
+        <table class="table">
+            <tr>
+                <td><b>Broj ocena:</b></td>
+                <td>@item.BrojOcena</td>
+            </tr>
+            <tr>
+                <td><b>Prosecna ocena:</b></td>
+                <td>@item.ProsecnaOcena</td>
+            </tr>
+        </table>
+        @if (Session["admin"] == null && Session["prodavac"] == null)
+        {
+            foreach (Komentar kom in item.Komentari)
+            {
+                if (kom.Status == Enumeracija.TipKomentara.AKTIVAN)
+                {
+                    <label><b>@kom.Kupac</b></label>
+                    <p>@kom.Tekst</p>
+                }
+            }
+        }
+        else
+        {
+
+            foreach (Komentar kom in item.Komentari)
+            {
+
+                <label><b>@kom.Kupac</b></label>
+                <p>@kom.Tekst</p>
+                <p>@kom.Status.ToString()</p>
+                <a href="@Url.Action("OdobriKomentar","Home",new { ID = kom.Id})">Odobri</a>
+                <a href="@Url.Action("OdbaciKomentar","Home",new { ID = kom.Id})">Odbaci</a>
+
+            }
+        }
+    </div>
+
+</div>
+

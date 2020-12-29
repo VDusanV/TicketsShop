@@ -1,0 +1,31 @@
+﻿
+@{
+    string id = ViewBag.mid;
+    string greska = ViewBag.Greska;
+}
+
+<div class="col-sm-6 col-md-offset-3" id="mojdiv">
+    <h2 class="col-md-offset-2">Ostavite ocenu i komentar</h2>
+    <h2 class="col-md-offset-2" style="color:red">@greska</h2>
+    <form action="~/Home/Komentarisi">
+
+        <div class="form-group">
+            <label class="col-md-6">Ime:</label>
+            <input class="col-md-6" type="text" name="ime" required autocomplete="off" ">
+        </div>
+        
+        <div class="form-group">
+            <label class="col-md-6">Komentar:</label>
+            <input class="col-md-6" type="text" name="komentar" required="" autocomplete="off" ">
+        </div>
+        <div class="form-group">
+            <label class="col-md-6">Ocena</label>
+            <input class="col-md-6" type="number" name="ocena" required="" autocomplete="off" ">
+        </div>
+        <input type="text"name="id" value="@id" hidden/>
+
+
+        <input class="col-md-6 col-md-offset-3 btn btn-default" type="submit" value="Dodaj" />
+
+    </form>
+</div>

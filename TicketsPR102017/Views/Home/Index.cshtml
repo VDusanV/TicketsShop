@@ -1,0 +1,158 @@
+﻿@using TicketsPR102017.Models;
+
+@{
+    int i = 0;
+    ViewBag.Title = "Home Page";
+    List<Manifestacija> man = ViewBag.Manifestacije;
+}
+
+<div class="jumbotron" id="mojdiv">
+    <h1>Manifestacija.rs</h1>
+    <p class="lead">Rezervisite ili napravite manifestaciju. Sve na jedno mestu!</p>
+</div>
+
+<div class="container" id="mojdiv">
+    <div class="container">
+        <h2 class="col-sm-offset-5">Pretraga</h2>
+        <form class="form-inline" action="~/Home/Pretraga">
+            <div class="form-group">
+                <label class="control-label">Naziv:</label>
+                <div>
+                    <input type="text" name="naziv" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Mesto:</label>
+                <div>
+                    <input type="text" name="mestoodrzavanja" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Datum od:</label>
+                <div>
+                    <input type="date" name="datumod" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">do:</label>
+                <div>
+                    <input type="date" name="datumdo" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Cena od:</label>
+                <div>
+                    <input type="number" name="cenaod" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">do:</label>
+                <div>
+                    <input type="number" name="cenado" />
+                </div>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-default" type="submit" value="Pretrazi"/>
+            </div>
+            <br />
+        </form>
+
+    </div>
+   
+    <div class="container">
+        <h2 class="col-md-offset-5">Sortiranje i filtriranje</h2>
+            <div class="row">
+                <form action="~/Home/Sortiraj">
+                        <div class="col-md-4">
+                            <label class="radio-inline">
+                                <input type="radio" name="sort" id="inlineRadio1" value="Naziv"> Naziv
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="sort" id="inlineRadio2" value="Datum"> Datum
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="sort" id="inlineRadio3" value="Cena"> Cena
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="sort" id="inlineRadio3" value="Mesto"> Mesto
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="radio-inline">
+                                <input type="radio" name="redosled" id="inlineRadio3" value="Rastucem" checked> Rastucem
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="redosled" id="inlineRadio3" value="Opadajucem"> Opadajucem
+                            </label>
+                            <input class="btn btn-default" type="submit" value="Sortiraj" />
+                        </div>
+                
+                </form>
+                <div class="col-md-4">
+                    <form class="radio-inline" action="~/Home/Filtriraj">
+                        <div>
+                    <label class="radio-inline" for="tip">Tip:</label>
+                            <select name="tip" id="cars">
+                                <option value=""></option>
+                                <option value="Koncert">Koncert</option>
+                                <option value="Festival">Festival</option>
+                                <option value="Pozoriste">Pozoriste</option>
+                                <option value="Slicno">Slicno</option>
+                            </select>
+                        </div>
+                        <label class="radio-inline"><input type="radio" name="nerasprodate" value="checked" />Samo nerasprodate</label>
+                        <input class="btn btn-default" type="submit" value="Filtriraj"/>
+                    </form>
+                </div>
+            </div>
+    </div>
+</div>
+<br />
+<div class="container">
+    
+    @foreach (var item in man)
+    {
+        if (item.Status == Enumeracija.StatusManifestacije.AKTIVAN)
+        {
+            <div class="col-md-4" id="mojdiv">
+                <table class="table col-lg-12">
+                    <tr>
+                        <td><b>Naziv:</b></td>
+                        <td>@item.Naziv</td>
+                    </tr>
+                    <tr>
+                        <td><b>Tip:</b></td>
+                        <td>@item.Tip.ToString()</td>
+                    </tr>
+                    <tr>
+                        <td><b>Cena karte:</b></td>
+                        <td>@item.CenaKarte</td>
+                    </tr>
+                    <tr>
+                        <td><b>Datum:</b></td>
+                        <td>@item.DatumOdrzavanja</td>
+
+                    </tr>
+                    <tr>
+                        <td><b>Grad:</b></td>
+                        <td>@item.MestoOdrzavanjaManif.Grad</td>
+
+                    </tr>
+                    <tr>
+                        <td><b>Adresa:</b></td>
+                        <td>@item.MestoOdrzavanjaManif.UlicaBroj</td>
+
+                    </tr>
+                    <tr>
+                        <td><b>Postanski broj:</b></td>
+                        <td>@item.MestoOdrzavanjaManif.PostanskiBroj</td>
+
+                    </tr>
+                </table>
+                    <img src="~/images/@item.Slika" width="350" height="100"/>
+                
+                <a class="btn btn-info" href="@Url.Action("Manifestacija", "Home", new { ID = item.Id })">Detalji</a>
+            </div>
+        }
+    }
+</div>

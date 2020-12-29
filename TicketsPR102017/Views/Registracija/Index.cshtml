@@ -1,0 +1,48 @@
+﻿@{
+    string greska = ViewBag.Greska;
+}
+<div class="login-box">
+    <h2>Register</h2>
+    <h2 style="color:red">@greska</h2>
+
+    <form action="~/Registracija/RegistrujSe">
+        <div class="user-box">
+            <input type="text" name="KorisnickoIme" required autocomplete="off">
+            <label>Korisnicko ime</label>
+        </div>
+        <div class="user-box">
+            <input type="password" name="Lozinka" required="">
+            <label>Lozinka</label>
+        </div>
+        <div class="user-box">
+            <input type="text" name="Ime" required="" autocomplete="off">
+            <label>Ime</label>
+        </div>
+        <div class="user-box">
+            <input type="text" name="Prezime" required="" autocomplete="off">
+            <label>Prezime</label>
+        </div>
+        <div class="user-box">
+            <input type="date" name="DatumRodjenja" required="" autocomplete="off">
+
+
+        </div>
+        <div class="user-box">
+            
+            <select name="Pol">
+                <option value="0">Muski</option>
+                <option value="1">Zenski</option>
+       
+            </select>
+        </div>
+        <a>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+
+            <input type="submit" id="inputProvidan" />
+        </a>
+    </form>
+</div>
+

@@ -1,0 +1,26 @@
+﻿@using TicketsPR102017.Models.Korisnici;
+@using TicketsPR102017.Models;
+@{
+    string idManif = ViewBag.idManif;
+    int brojKarata = ViewBag.brojKarata;
+    Enumeracija.TipKarte tip = ViewBag.tipKarte;
+    double ukupnaCena = ViewBag.ukupnaCena;
+    string imeKupca = ViewBag.imeKupca;
+}
+
+<div class="jumbotron" id="mojdiv">
+    <h2><label>@imeKupca kupili ste @brojKarata @tip.ToString() karte po ceni od: @ukupnaCena</label></h2>
+
+
+    <form action="~/Profil/RezervisiKartu">
+        <input type="text" name="idManif" value="@idManif" hidden />
+        <input type="text" name="cenaKarte" value="@ukupnaCena" hidden />
+        <input type="text" name="imeKupca" value="@imeKupca" hidden />
+        <input type="number" name="brojKarata" value="@brojKarata" hidden/>
+        <input type="text" name="tipKarte" value="@tip" hidden/>
+
+       
+        <input type="submit" value="rezervisi" />
+    </form>
+</div>
+

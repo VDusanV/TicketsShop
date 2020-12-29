@@ -1,0 +1,180 @@
+﻿@using TicketsPR102017.Models.Korisnici;
+@using TicketsPR102017.Models;
+
+@model Korisnik
+@{ 
+    List<Karta> karte = ViewBag.Karte;
+}
+    <div class="row container">
+        
+        <div class="col-sm-6 col-md-offset-3" id="mojdiv">
+            <h2 class="col-md-offset-3">Izmeni profil</h2>
+            <form action="~/Profil/Izmeni">
+                <input type="text" name="StaroKorisnicko" value="@Model.KorisnickoIme" hidden />
+                <div class="form-group">
+                    <label class="col-md-6">Korisnicko ime:</label>
+                    <input class="col-md-6" type="text" name="KorisnickoIme" required autocomplete="off" value="@Model.KorisnickoIme">
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6">Lozinka:</label>
+                    <input  class="col-md-6" type="text" name="Lozinka" required="" value="@Model.Lozinka">
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6">Ime</label>
+                    <input class="col-md-6" type="text" name="Ime" required="" autocomplete="off" value="@Model.Ime">
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6">Prezime</label>
+                    <input class="col-md-6" type="text" name="Prezime" required="" autocomplete="off" value="@Model.Prezime">
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6">Datum rodjenja</label>
+                    <input class="col-md-6" type="date" name="DatumRodjenja" required="" autocomplete="off" value="@Model.DatumRodjenja.ToString("yyyy-MM-dd")">
+
+                </div>
+            
+
+                    <input class="col-md-6 col-md-offset-3 btn btn-default" type="submit"  value="Izmeni" />
+               
+            </form>
+        </div>
+      
+        @if (karte != null)
+        {
+            <div  class="col-sm-12" id="mojdiv">
+                <h2 class="col-lg-offset-3">Sortiranje i filtriranje karata</h2>
+                <div class="row">
+
+                    <form class="form-inline" action="~/Profil/Pretraga">
+                        <div class="form-group">
+                            <label class="control-label">Naziv:</label>
+                            <div>
+                                <input type="text" name="naziv" />
+                            </div>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label class="control-label">Datum od:</label>
+                            <div>
+                                <input type="date" name="datumod" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">do:</label>
+                            <div>
+                                <input type="date" name="datumdo" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Cena od:</label>
+                            <div>
+                                <input type="number" name="cenaod" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">do:</label>
+                            <div>
+                                <input type="number" name="cenado" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Pretrazi" />
+                        </div>
+                        <br />
+                    </form>
+
+
+                </div>
+
+                <div class="row">
+                    <form action="~/Profil/Sortiraj">
+                        <div class="col-md-4">
+                            <label class="radio-inline">
+                                <input type="radio" name="sort" id="inlineRadio1" value="Naziv"> Naziv
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="sort" id="inlineRadio2" value="Datum"> Datum
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="sort" id="inlineRadio3" value="Cena"> Cena
+                            </label>
+
+                        </div>
+                        <div class="col-md-4">
+                            <label class="radio-inline">
+                                <input type="radio" name="redosled" id="inlineRadio3" value="Rastucem" checked> Rastucem
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="redosled" id="inlineRadio3" value="Opadajucem"> Opadajucem
+                            </label>
+                            <input type="submit" value="Sortiraj" />
+                        </div>
+
+                    </form>
+
+                    <div class="col-md-4">
+                        <form class="radio-inline" action="~/Profil/Filtriraj">
+                            <div>
+                                <label class="radio-inline" for="tip">Tip:</label>
+                                <select name="tip" id="cars">
+                                    <option value=""></option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Vip">Vip</option>
+                                    <option value="FanPit">FanPit</option>
+                                    
+                                </select>
+                            </div>
+                            <label class="radio-inline"><input type="radio" name="rezervisane" value="checked" />Samo rezervisane</label>
+                            <input type="submit" value="Filtriraj" />
+                        </form>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+
+
+            <div class="col-sm-8 col-md-offset-2" id="mojdiv">
+                <h2 class="col-md-offset-3">Rezervisane karte</h2>
+                <table class="table">
+                    <tr>
+                        <th>Manifestacija</th>
+                        <th>Datum</th>
+                        <th>Ukupna cena karata</th>
+                        <th>Broj karata</th>
+                        <th>Tip </th>
+                        <th>Status </th>
+                    </tr>
+                        @foreach (var item in karte)
+                        {
+                    <tr>
+                        @if (item.StatusRezervacije == Enumeracija.StatusKarte.REZERVISANA)
+                        {
+                            <td>@item.Manifestacija.Naziv</td>
+                            <td>@item.Manifestacija.DatumOdrzavanja</td>
+                            <td>@item.CenaKarte</td>
+                            <td>@item.BrojKarata</td>
+                            <td>@item.TipKarte.ToString()</td>
+                            <td>@item.StatusRezervacije.ToString()</td>
+                            if (DateTime.Compare(DateTime.Now, item.DatumManifestacije.AddDays(7)) > 0)
+                            {
+                                <td>
+                                    <a href="@Url.Action("Komentar", "Home", new { ID = item.Manifestacija.Id })">Oceni/Komentarisi</a>
+                                </td>
+                            }
+                            if (item.StatusRezervacije == Enumeracija.StatusKarte.REZERVISANA && DateTime.Compare(DateTime.Now.AddDays(7), item.DatumManifestacije) < 0)
+                            {
+                                <td>
+                                    <a href="@Url.Action("Odustanak", "Profil", new { ID = item.Manifestacija.Id })">Odustani</a>
+                                </td>
+                            }
+                        }
+                    </tr>
+                        }
+                </table>
+            </div>
+        }
+    </div>

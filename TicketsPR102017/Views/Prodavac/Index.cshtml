@@ -1,0 +1,126 @@
+﻿@using TicketsPR102017.Models;
+@using TicketsPR102017.Models.Korisnici;
+
+@{
+    string greska = ViewBag.Greska;
+    Manifestacija m = ViewBag.IzmenjenaManif;
+    List<Manifestacija> manif = ViewBag.ProdManif;
+    List<Karta> karte = ViewBag.KarteProdavca;
+}
+
+
+
+<div class="row container">
+
+    <div class="col-sm-6 col-sm-offset-3" id="mojdiv">
+        <h2 class="col-md-offset-2">Dodaj Manifestaciju</h2>
+        <h2 style="color:red">@greska</h2>
+        <form action="~/Prodavac/DodajManifestaciju">
+            <div class="form-group">
+                <label class="col-md-6">Naziv manifestacije:</label>
+                <input class="col-md-6" type="text" name="naziv" value=@m.Naziv required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label class="col-md-6">Broj mesta:</label>
+                <input class="col-md-6" type="number" name="brojmesta" value=@m.BrojMesta required="" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label class="col-md-6">Datum odrzavanja:</label>
+                <input class="col-md-6" type="datetime-local" name="datumodrzavanja" value="@m.DatumOdrzavanja.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ','T')" required="" autocomplete="off">
+
+            </div>
+            <div class="form-group">
+                <label class="col-md-6">Cena karte:</label>
+                <input class="col-md-6" type="number" name="cenakarte" value=@m.CenaKarte required="" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label class="col-md-6">Grad:</label>
+                <input class="col-md-6" type="text" name="grad" value="@m.MestoOdrzavanjaManif.Grad" required="" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label class="col-md-6">Ulica i broj:</label>
+                <input class="col-md-6" type="text" name="ulicaibroj" value="@m.MestoOdrzavanjaManif.UlicaBroj" required="" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label class="col-md-6">Postanski broj:</label>
+                <input class="col-md-6" type="number" name="postanskibroj" value="@m.MestoOdrzavanjaManif.PostanskiBroj" required="" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label class="col-md-6">Tip:</label>
+                <select class="col-md-6" name="tipManifestacije">
+                    <option value="0">Koncert</option>
+                    <option value="1">Festival</option>
+                    <option value="2">Pozoriste</option>
+                    <option value="3">Ostalo</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="col-md-6">Slika:</label>
+                <input class="col-md-6" type="file" name="slika" value="@m.Slika" required="">
+            </div>
+
+            <input hidden name="id" value="@m.Id" />
+
+            <input class="col-md-6 col-md-offset-3 btn btn-default" type="submit" value="Dodaj " />
+
+        </form>
+    </div>
+
+</div>
+<div class="container" id="mojdiv">
+    <h3>Vase manifestacije</h3>
+    <table class="table">
+        <tr>
+            <th>Naziv</th>
+            <th>Tip</th>
+            <th>Kapacitet</th>
+            <th>Rezervisana mesta</th>
+            <th>Datum</th>
+            <th>Cena karte</th>
+            <th>Prosecna ocena</th>
+            <th>Status</th>
+        </tr>
+        @foreach (var item in manif)
+        {
+            <tr>
+                <td>@item.Naziv</td>
+                <td>@item.Tip.ToString()</td>
+                <td>@item.Kapacitet</td>
+                <td>@item.BrojMesta</td>
+                <td>@item.DatumOdrzavanja</td>
+                <td>@item.CenaKarte</td>
+                <td>@item.ProsecnaOcena</td>
+                <td>@item.Status.ToString()</td>
+                <td>
+                    <a href="@Url.Action("IzmeniManifestaciju","Prodavac",new { ID = item.Id})">Izmeni</a>
+
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+
+<div class="container" id="mojdiv">
+    <h3>Vase rezervisane karte</h3>
+    <table class="table">
+        <tr>
+            <th>Naziv</th>
+            <th>Tip</th>
+            <th>Broj karata</th>
+            <th>Ime kupca</th>
+            
+        </tr>
+        @foreach (var item in karte)
+        {
+            <tr>
+                <td>@item.Manifestacija.Naziv</td>
+                <td>@item.TipKarte.ToString()</td>
+                <td>@item.BrojKarata</td>
+                <td>@item.ImePrezimeKupca</td>
+               
+            </tr>
+        }
+    </table>
+</div>
